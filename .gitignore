@@ -53,6 +53,9 @@ playground.xcworkspace
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
+# Binary
+ib_strings_translate/ib_translate
+
 Carthage/Build
 
 # fastlane
