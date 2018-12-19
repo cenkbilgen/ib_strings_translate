@@ -87,7 +87,7 @@ let file = arguments["f"] ?? "Main.strings"
 GoogleAPI.key = arguments["k"] ?? GoogleAPI.key
 
 guard GoogleAPI.key != nil else {
-  print("Google API Key must be specified at compile time or by command like argument.")
+  print("Google API Key must be specified at compile time or on command line with -k")
   exit(4)
 }
 
