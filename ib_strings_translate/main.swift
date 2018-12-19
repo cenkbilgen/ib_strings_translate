@@ -16,7 +16,7 @@ guard CommandLine.argc >= 3 else {
   
   print("Optional flags")
   print("\t-f string file name, default is ./[target language].lproj/Main.strings")
-  print("\t-k Google API key, set here or directly at compile-time, this overrides")
+  print("\t-k Google API key, set here or directly at compile-time (in Translatable file), this overrides")
   print("\n")
   
   print("Make sure the localization is added to the project in Xcode first.")
@@ -35,7 +35,6 @@ let targetLanguage = CommandLine.arguments[2]
 // MARK: parse arguments
 
 var arguments: [String: String] = [:]
-var json: [String: String] = [:]
 
 var nextArgumentFlag: String?
 
