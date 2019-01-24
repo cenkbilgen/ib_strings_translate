@@ -20,11 +20,27 @@ guard CommandLine.argc >= 3 else {
   print("\n")
   
   print("Make sure the localization is added to the project in Xcode first.")
+  print("You will need generally need two files per language:")
+  print("1. Main.strings (for strings in IB)")
+  print("2. Localizable.strings (for strings in NSLocalizedString)")
+  print("\n")
+  print("1. To generate Main.strings (IB)")
   print("From the Project Info page")
   print("or from the menu Editor -> Add Localization -> German (for example).")
-  print("\nTo create a translated Main.strings file from the English original,")
+  print("\n")
+  print("\nTo create a translated Main.strings files from the English original,")
   print("run from the project directory:")
   print("\(command) en de")
+  print("\n")
+  print("2. To generate a Localizable.strings")
+  print("Use the genstrings command line file. Probably need to download it from Apple Developer website.")
+  print("After you run genstrings it should generate a base Localizable.strings file.")
+  print("Copy that file into all the languate directories you want translations for and ib_translate will update them, translated.")
+  print("You need to create the directory de.lproj, for example, if you are not using IB at all and didnt' add the localization like above")
+  print("\n")
+  print("\nTo create a translated Localizable.strings files from the English original,")
+  print("run from the project directory (specify UTF16 encoding for the output, it's what XCode expects):")
+  print("\(command) en de -f Localizable.strings -u 16")
   print("\n\n")
   exit(1)
 }
@@ -86,6 +102,10 @@ let file = arguments["f"] ?? "Main.strings"
 
 GoogleAPI.key = arguments["k"] ?? GoogleAPI.key
 
+// if specified -u 16 use UTF16 for output, only makes sense when output file specified
+// otherwise if nil, use .UTF8 for Main.strings, and .UTF16 for Localizable (it's what XCode expects)
+let encoding: String.Encoding = arguments["u"] == "16" ? .utf16 : .utf8
+
 guard GoogleAPI.key != nil else {
   print("Google API Key must be specified at compile time or on command line with -k")
   exit(4)
@@ -95,7 +115,7 @@ let currentPath = FileManager.default.currentDirectoryPath
 let currentURL = URL(fileURLWithPath: currentPath, isDirectory: true)
 
 let url = URL(fileURLWithPath: targetLanguage + ".lproj/" + file, isDirectory: false, relativeTo: currentURL)
-//print("\(url.absoluteString)")
+print("\(url.absoluteString)")
 
 var output: [String] = []
 
@@ -193,7 +213,7 @@ do {
   
   // write out the new translated strings file
   
-  try out.write(to: url, atomically: true, encoding: .utf8)
+  try out.write(to: url, atomically: true, encoding: encoding)
   
   print("\nWrote \(url.absoluteString)")
   
