@@ -68,6 +68,10 @@ for argument in CommandLine.arguments[3..<Int(CommandLine.argc)] {
       
       nextArgumentFlag = "f"
       
+    case "u":
+      
+      nextArgumentFlag = "u"
+      
     case "k":
       
       nextArgumentFlag = "k"
